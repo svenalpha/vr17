@@ -2,6 +2,8 @@ import { renderToString } from 'react-dom/server';
 
 import App from './app';
 
-export const render = () => {
-  return renderToString(<App />);
+//X export const render = () => {
+//X  return renderToString(<App />);   
+export const render = (data) => {
+return renderToString(<App data={data} />);
 };

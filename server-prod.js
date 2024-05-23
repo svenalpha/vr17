@@ -12,7 +12,12 @@ app.use('*', async (_, res) => {
     const template = fs.readFileSync('./dist/client/index.html', 'utf-8');
     const { render } = await import('./dist/server/entry-server.js');
 
-    const html = template.replace(`<!--outlet-->`, render);
+    //x const html = template.replace(`<!--outlet-->`, render);
+    const { getServerData } = await import('./dist/function/function.js');       //x
+    const data = await getServerData();                                          //x
+    const script = `<script>window.__data__=${JSON.stringify(data)}</script>`;   //x
+
+    const html = template.replace(`<!--outlet-->`, `${render(data)} ${script}`); //x
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
   } catch (error) {
     res.status(500).end(error);
